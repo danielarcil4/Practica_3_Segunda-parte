@@ -9,6 +9,7 @@ void escribir();
 
 bool lectura(string);
 
+
 int main()
 {
     string contrasena;
@@ -45,23 +46,24 @@ int main()
                 cout<<"Se ha guardado con exito el usuario"<<endl;
                 break;
             }
-            else break;
-
+            else{
+                cout<<"Se ha salido con exitosamente"<<endl;
+                break;
+            }
         }
-        //archivo = escribir();
-        //archivo = cambiar(archivo);
         break;
-
         case 2:
-            cout<<"";
-        break;
+        int a;
+            cout<<"Bienvenido usuario";
+            cout<<"Seleccione el numero de la opcion que desea: "<<endl;
+            cout<<"(1) consultar saldo"<<endl;
+            cout<<"(2) Retirar dinero"<<endl;
+            cout<<"(3) Salir"<<endl;
+            cin>>a;
 
-        case 3:
-        cout<<"Se ha salido exitosamente"<<endl;
         break;
-
         default:
-        cout<<"La opcion ingresada no es valida"<<endl;
+        cout<<"Se ha salido exitosamente"<<endl;
     }
 
 
@@ -93,7 +95,7 @@ void escribir(){
     //verificacion de numero de digitos corectos en la cedula.
     if (cedula.length()==8){
         //Encriptacion de la cedula
-        string bin="",binario="";
+        string bin="",binario="",code,copia="0000";
         int entero = atoi(cedula.c_str());
         while(entero>0){
             bin += entero%2+'0';
@@ -102,10 +104,23 @@ void escribir(){
         binario=bin;
         int a = bin.length();
         entero= a;
+        if(a%2!=0){
+            bin+="0";
+            a+=1;
+            entero+=1;
+            }
         for(int i=0; i<entero;i++){
             binario[i] = bin[--a];
             }
-        Usuario <<binario;
+        for(int h = 0;h<entero;++h){
+            for(int i = 0; i<3 ;i++){
+                copia[i+1] = binario[h];
+                if (i==2)copia[0] = binario[h+1];
+                ++h;
+                }
+            code+=copia;
+        }
+        Usuario <<code;
         i=false;
         }
     else{
@@ -115,11 +130,12 @@ void escribir(){
     i=true;
     while(i==true){
         cout<<"Ingrese la clave del usuario(la clave debe de contener 4 digitos): "<<endl;
+        cout<<"<clave><Enter>"<<endl;
         getline(cin,clave);
         //verificacion de numero de digitos correctos en la clave.
         if(clave.length()==4){
             //Encriptacion de la clave
-            string bin="",binario="";
+            string bin="",binario="",copia="0000",code;
             int entero = atoi(clave.c_str());
             while(entero>0){
                 bin += entero%2+'0';
@@ -128,10 +144,23 @@ void escribir(){
             binario=bin;
             int a = bin.length();
             entero=a;
+            if(a%2!=0){
+                bin+="0";
+                a+=1;
+                entero+=1;
+                }
             for(int i=0; i<entero;i++){
                 binario[i] = bin[--a];
                 }
-            Usuario <<","<<binario;
+            for(int h = 0;h<entero;++h){
+                for(int i = 0; i<3 ;i++){
+                    copia[i+1] = binario[h];
+                    if (i==2)copia[0] = binario[h+1];
+                    ++h;
+                    }
+                code+=copia;
+            }
+            Usuario <<","<<code;
             i=false;
         }
         else{
@@ -139,9 +168,10 @@ void escribir(){
         }
     }
     cout<<"Ingrese la saldo del usuario(el saldo debe de contener minimo 2 digitos): "<<endl;
+    cout<<"<saldo><Enter>"<<endl;
     getline(cin,saldo);
     //Encriptacion de el saldo
-    string bin="",binario="";
+    string bin="",binario="",code,copia="0000";
     int entero = atoi(saldo.c_str());
     while(entero>0){
         bin += entero%2+'0';
@@ -152,13 +182,22 @@ void escribir(){
     if(a%2!=0){
         bin+="0";
         a+=1;
+        entero+=1;
         }
     binario=bin;
     for(int i=0; i<entero;i++){
         binario[i] = bin[--a];
         }
+    for(int h = 0;h<entero;++h){
+        for(int i = 0; i<3 ;i++){
+            copia[i+1] = binario[h];
+            if (i==2)copia[0] = binario[h+1];
+            ++h;
+            }
+        code+=copia;
+    }
 
-    Usuario <<","<<binario<<" ";
+    Usuario <<","<<code<<" ";
 
     Usuario.close();
 
@@ -209,7 +248,7 @@ bool lectura(string contrasena1){
 
 }
 
-//100110100010010100000100,10011010010,100111000100000
-//100110100010010100000100,10011010010,0100111000100000
+//100110100010010100000100,010011010010,0100111000100000
+//110001010001101000000010,001011100001,0010011100010000
 
 
